@@ -7,13 +7,23 @@ var path = require('path');
 var app = express();
 
 // Sets an initial port. We'll use this later in our listener
-var PORT = process.env.PORT || 8080;
+var PORT = process.env.PORT || 8080
+
+// bodyParser makes it easy for the back and the front easy for each other
+var jsonParser = bodyParser.json();
+app.use(urlencodedParser = bodyParser.urlencoded({ extended: false }));
 
 // BodyParser makes it possible for our server to interpret data sent to it
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.text());
-app.use(bodyParser.json({ type: "application/vnd.api+json "}));
+
+// Parse various different  custom JSON types as JSON
+app.use(bodyParser.json({ type: 'application/*+json'}));
+//app.use(bodyParser.urlencoded({ extended: true }));
+
+// parse some custom thing into a Buffer
+app.use(bodyParser.raw({ type: 'application/vnd.custom-type'}));
+
+// parse an HTML body into a string
+app.use(bodyParser.text({ type: 'text/html' }));
 
 // Points our server to a series of "route" files
 // These map gives our server a "map" of how to respond when users visit or request data from various URLs.

@@ -1,4 +1,3 @@
-
 var friends = require("../app/data/friends")
 
 module.exports = function(app) {
@@ -41,9 +40,11 @@ module.exports = function(app) {
       for (var j = 0; j < friends[i].scores[j]; j++){
 
         // We calculate the difference between the scores and the sum them into the totalDifference
+        // Math.abs makes it absolute value
         totalDifference += Math.abs(parseInt(userScores[j]) - parseInt(friends[i].scores[j]));
 
         // If the sum of differences is less than the difference of the current "best match"
+        // If they have less of a difference 
         if (totalDifference <= bestMatch.friendDifference) {
 
           // Reset the bestMatch to be the new friend.
@@ -57,5 +58,8 @@ module.exports = function(app) {
     // Save the user's data to the database (this has to happen AFTER the check. otherwise,
     // The database will always return that the user is the user's best friend).
     friends.push(userData);
+
+    // Return a JSON with the user's bestMatch. This will be used by the HTML in the next page
+    res.json(bestMath);
   });
 }
